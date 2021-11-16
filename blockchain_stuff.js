@@ -48,11 +48,11 @@ const getContract = async (web3) => {
   const response = await fetch(JSON_CONTRACT_PATH);
   const data = await response.json();
   
-  const netId = await web3.eth.net.getId();
-  const deployedNetwork = data.networks[netId];
+  const netId = NETWORK_ID;
+  const deployedNetwork = NETWORK_ID;
   contract = new web3.eth.Contract(
     data.abi,
-    deployedNetwork && deployedNetwork.address
+    "0x3aB34DD60c98667c95b3624d367bB675CFC153c7"
     );
   return contract
 }
@@ -69,7 +69,6 @@ async function loadDapp() {
           await window.ethereum.request({ method: "eth_requestAccounts" })
           accounts = await web3.eth.getAccounts()
           balance = await contract.methods.balanceOf(accounts[0]).call()
-          playerBalanceCallback(balance)
           document.getElementById("web3_message").textContent="You have " + balance + " NFTs"
         };
         awaitContract();
@@ -81,14 +80,30 @@ async function loadDapp() {
   awaitWeb3();
 }
 
-const collect = async () => {
-  const result = await contract.methods.mintNFT(accounts[0])
+const collect = async (amount) => {
+  const result = await contract.methods.mint(web3.utils.toWei(''+amount, 'ether'))
     .send({ from: accounts[0], gas: 0, value: 0 })
     .on('transactionHash', function(hash){
       document.getElementById("web3_message").textContent="Minting...";
     })
     .on('receipt', function(receipt){
       document.getElementById("web3_message").textContent="Success! Minting finished.";    })
+    .catch((revertReason) => {
+      console.log("ERROR! Transaction reverted: " + revertReason.receipt.transactionHash)
+    });
+}
+
+const payEntry = async () => {
+  const result = await contract.methods.transfer("0x6927A687175d2fa9c2784ac2b885f0f88bC2ee43", web3.utils.toWei(''+5, 'ether'))
+    .send({ from: accounts[0], gas: 0, value: 0 })
+    .on('transactionHash', function(hash){
+      document.getElementById("web3_message").textContent="Minting...";
+      console.log("tx in progress")
+    })
+    .on('receipt', function(receipt){
+      console.log("txed")
+      initGame()  
+    })
     .catch((revertReason) => {
       console.log("ERROR! Transaction reverted: " + revertReason.receipt.transactionHash)
     });
