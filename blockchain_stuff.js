@@ -52,7 +52,7 @@ const getContract = async (web3) => {
   const deployedNetwork = NETWORK_ID;
   contract = new web3.eth.Contract(
     data.abi,
-    "0x3aB34DD60c98667c95b3624d367bB675CFC153c7"
+    "0xEd6099a8d20EDD5D458d4EEf59DA508e15C8E67d"
     );
   return contract
 }

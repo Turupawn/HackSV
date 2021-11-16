@@ -81,7 +81,7 @@ function create ()
   
   button_select = this.add.image(450, 550, 'seleccionar');
   
-  button_collect = this.add.image(200, 150, 'collect');
+  button_collect = this.add.image(170, 160, 'collect');
 
   var selected_color = 0x00FFFF
 
