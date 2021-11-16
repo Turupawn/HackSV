@@ -82,7 +82,7 @@ async function loadDapp() {
 
 const collect = async (amount) => {
   const result = await contract.methods.mint(web3.utils.toWei(''+amount, 'ether'))
-    .send({ from: accounts[0], gas: 0, value: 0 })
+    .send({ from: accounts[0], gas: 0 })
     .on('transactionHash', function(hash){
       document.getElementById("web3_message").textContent="Minting...";
     })
@@ -95,7 +95,7 @@ const collect = async (amount) => {
 
 const payEntry = async () => {
   const result = await contract.methods.transfer("0x6927A687175d2fa9c2784ac2b885f0f88bC2ee43", web3.utils.toWei(''+5, 'ether'))
-    .send({ from: accounts[0], gas: 0, value: 0 })
+    .send({ from: accounts[0], gas: 0 })
     .on('transactionHash', function(hash){
       document.getElementById("web3_message").textContent="Minting...";
       console.log("tx in progress")
