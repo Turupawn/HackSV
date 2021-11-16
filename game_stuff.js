@@ -150,9 +150,9 @@ function create ()
   });
 
   button_collect.setInteractive().on('pointerdown', function() {
+    button_collect.visible = false
+    questionText.setText('Now collecting ' + score + ' HERJ tokens');
     collect(score)
-    //score = 0
-    //scoreText.setText('Score: ' + score);
   });
 
   image_a.visible = false
@@ -164,6 +164,13 @@ function create ()
   button_pay.visible = true
 
   initGame()
+}
+
+function onCollected()
+{
+  score = 0
+  scoreText.setText('Score: ' + score);
+  questionText.setText('Tokens collected!');
 }
 
 function update ()

@@ -87,7 +87,9 @@ const collect = async (amount) => {
       document.getElementById("web3_message").textContent="Minting...";
     })
     .on('receipt', function(receipt){
-      document.getElementById("web3_message").textContent="Success! Minting finished.";    })
+      onCollected()
+      document.getElementById("web3_message").textContent="Success! Minting finished.";
+    })
     .catch((revertReason) => {
       console.log("ERROR! Transaction reverted: " + revertReason.receipt.transactionHash)
     });
